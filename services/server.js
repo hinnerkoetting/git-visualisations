@@ -25,13 +25,13 @@ function fromFileSystem(path) {
   }
 }
 
-function startServer(callback) {
+function startServer(serverPort, callback) {
   console.log("Starting server");
   if (server)
     throw {message: 'Server was already started'};
   configureRoutes();
   var localServer;
-  server = app.listen(3000, function () {
+  server = app.listen(serverPort, function () {
     var host = localServer.address().address;
     var port = localServer.address().port;
 
@@ -48,7 +48,7 @@ function stopServer() {
     throw {message:'Server was not started'};
   }
   server.close();
-  server = undefined;  
+  server = null;
 }
 
 module.exports.startServer = startServer;

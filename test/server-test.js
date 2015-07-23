@@ -1,13 +1,13 @@
 var server = require('../services/server.js');
 var http = require('http');
 var assert = require('assert');
-var testedPort = 3000;
+var testedPort = 3001;
 var testedHost = 'localhost';
 
 describe('server', function() {
   describe('#startServer()', function() {
     it('should be able to start and stop server', function(done) {
-      server.startServer(function() {
+      server.startServer(testedPort, function() {
         server.stopServer();
         done();
       })
@@ -50,7 +50,7 @@ describe('server', function() {
       http.request(options, isJsonResponse(done)).end();
     });
     before(function(done) {
-      server.startServer(function() {
+      server.startServer(testedPort, function() {
         done();
       })
     });

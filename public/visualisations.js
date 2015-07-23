@@ -9,9 +9,7 @@ function processGitResponse(data) {
 
 function createBarChart(chart) {
 
-    var y = d3.scale.linear()
-      .range([chart.height, 0]);
-    y.domain([0, d3.max(chart.data, function(d) { return d; })]);
+    var y = createYScale(chart);
 
 
     var chartElement = d3.select(".chart")
@@ -36,6 +34,12 @@ function createBarChart(chart) {
       .text(function(d) { return d; });
   }
 
+function createYScale(chart) {
+  var y = d3.scale.linear()
+    .range([chart.height, 0]);
+  y.domain([0, d3.max(chart.data, function(d) { return d; })]);
+  return y;
+}
 
 function createChartOptions(input) {
   return {

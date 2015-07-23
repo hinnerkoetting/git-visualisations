@@ -2,4 +2,4 @@
 
 var server = require('./services/server.js');
 
-server.startServer();
+server.startServer(3000);
