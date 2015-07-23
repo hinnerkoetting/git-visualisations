@@ -4,7 +4,7 @@
   "description": "Some D3 Visualitions for your git commit history.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --reporter spec test",
     "start": "node server.js"
   },
   "author": "Hinnerk Oetting",
@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.13.1",
     "gitlog": "^2.0.1",
+    "mocha": "^2.2.5",
     "send": "^0.13.0"
   }
 }
