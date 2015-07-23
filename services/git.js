@@ -10,7 +10,7 @@ var options =
       , 'abbrevHash'
       , 'subject'
       , 'authorName'
-      , 'authorDateRel'
+      , 'authorDate'
       ]
     }
 

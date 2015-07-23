@@ -1,6 +1,6 @@
 
 
-.chart rect {
+.chart circle {
   fill: steelblue;
 }
 
@@ -8,4 +8,36 @@
   fill: white;
   font: 10px sans-serif;
   text-anchor: end;
+}
+
+svg {
+  margin:20px;
+  padding:25px;
+  padding-top:50px;
+}
+
+
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    fill: black;
+    font-size: 18px;
+}
+
+.chart text {
+    fill: black;
+    font-size: 18px;
+    text-anchor: start;
 }
