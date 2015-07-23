@@ -1,6 +1,26 @@
 
+
+var gitlog = require('gitlog');
+
+var options =
+    { repo: __dirname + '/..'
+    , number: 20
+    , fields:
+      [ 'hash'
+      , 'abbrevHash'
+      , 'subject'
+      , 'authorName'
+      , 'authorDateRel'
+      ]
+    }
+
+
+
 function logGit(request, response) {
-  response.send('Request to git path');
+  gitlog(options, function(error, commits) {
+      response.send(commits);
+  })
+
 }
 
 module.exports = logGit;
