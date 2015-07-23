@@ -10,17 +10,14 @@ var parseUrl = require('url').parse;
 configureRoutes();
 startServer();
 
-
 function configureRoutes() {
   app.get('/', fromFileSystem('./public/index.html'));
   app.get('/git', git);
   app.get('/*', fileFromPublicFolder);
 }
 
-
-
 function fileFromPublicFolder(request, response) {
-  var url = parseUrl(request.url, true);  
+  var url = parseUrl(request.url, true);
   fromFileSystem( 'public' + url.pathname )(request, response);
 }
 
@@ -29,7 +26,6 @@ function fromFileSystem(path) {
      send(request, path).pipe(response);
   }
 }
-
 
 function startServer() {
   var server = app.listen(3000, function () {
