@@ -16,11 +16,7 @@ QUnit.test( "Y value of 0 is at chart height", function( assert ) {
   assert.equal(yScale(0), chart.height);
 });
 
-QUnit.test( "X value of 0 is at pixel 0", function( assert ) {
-  var chart = createChartData(dummyGitData());
-  var xScale = createXScale(chart);
-  assert.equal(xScale(1437653757000), 0);
-});
+
 
 function dummyGitData() {
   return [ {
