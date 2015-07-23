@@ -4,7 +4,7 @@
   "description": "Some D3 Visualitions for your git commit history.",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --reporter spec test",
+    "test": "mocha --reporter spec test && node test/qunit-tests.js",
     "start": "node server.js"
   },
   "author": "Hinnerk Oetting",
@@ -14,5 +14,8 @@
     "gitlog": "^2.0.1",
     "mocha": "^2.2.5",
     "send": "^0.13.0"
+  },
+  "devDependencies": {
+    "node-qunit-phantomjs": "^1.2.1"
   }
 }
