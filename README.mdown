@@ -1,4 +1,5 @@
 ### Status
+
 [![Build Status](https://travis-ci.org/hinnerkoetting/git-visualisations.svg?branch=master)](https://travis-ci.org/hinnerkoetting/git-visualisations)
 
 A small project to display some git visualitions. It is mainly a learning project.
