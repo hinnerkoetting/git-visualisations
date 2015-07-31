@@ -1,9 +1,6 @@
-
 function processGitResponse(data) {
-
   var chart = createChartData(data);
-
-  createBarChart(chart);
+  createLineChart(chart);
 }
 
 function createChartData(data) {
@@ -13,7 +10,7 @@ function createChartData(data) {
 }
 
 
-function createBarChart(chart) {
+function createLineChart(chart) {
     var y = createYScale(chart);
     var x = createXScale(chart);
 
@@ -22,28 +19,28 @@ function createBarChart(chart) {
       attr("height", chart.height );
 
 
-    var bar = svg.selectAll("g").
+    var graph = svg.selectAll("g").
       data(chart.data).
       enter().append("g").
-      attr("transform", function(d, i) { return "translate(" + computeBarWidth(chart) / 2 + ", 0)"; });
+      attr("transform", function(d, i) { return "translate(" + computeRadiusrWidth(chart) / 2 + ", 0)"; });
 
-    appendCircles(x, y, bar, chart);
-    appendCircleDescription(x,y, bar, chart);
+    appendCircles(x, y, graph, chart);
+    appendCircleDescription(x, y, graph, chart);
     appendPath(x,y, chart, svg);
     createYAxis(svg, y, chart);
     createXAxis(svg, x, chart);
 }
 
-function appendCircles(x, y, bar, chart) {
-  bar.append("circle").
+function appendCircles(x, y, graph, chart) {
+  graph.append("circle").
     attr("cy", position(y, chart.getYValue)).
     attr("cx", position(x, chart.getXValue)).
-    attr("r", computeBarWidth(chart)).
-    attr("width", computeBarWidth(chart));
+    attr("r", computeRadius(chart)).
+    attr("width", computeRadius(chart));
 }
 
-function appendCircleDescription(x, y, bar, chart) {
-  bar.append("text").
+function appendCircleDescription(x, y, graph, chart) {
+  graph.append("text").
     attr("x", position(x, chart.getXValue)).
     attr("y", function(d) { return y(chart.getYValue(d)) + 10; }).
     attr("dy", ".75em").
@@ -122,7 +119,7 @@ function createChartOptions(input, mapXValue, mapYValue) {
   }
 }
 
-function computeBarWidth(chart) {
+function computeRadius(chart) {
   return 10;
 }
 

@@ -1,6 +1,6 @@
 QUnit.test( "can create bar chart without error", function( assert ) {
   var chart = createChartData(dummyGitData());
-  createBarChart(chart);
+  createLineChart(chart);
   expect(0);
 });
 
