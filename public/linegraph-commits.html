@@ -1,0 +1,18 @@
+<html>
+  <body>
+      <svg class="chart"></svg>
+  </body>
+  <script src="bower_components/d3/d3.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="linegraph-commits.js"></script>
+
+  <script>
+    $.ajax({
+      url: "git",
+    })
+    .done(function( data ) {
+      processGitResponse(data);
+    });
+  </script>
+  <link rel="stylesheet" type="text/css" href="linegraph-commits.css"/>
+</html>
