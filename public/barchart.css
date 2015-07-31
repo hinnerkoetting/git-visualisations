@@ -3,6 +3,26 @@
 }
 
 .chart {
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    fill: black;
+    font-size: 18px;
+}
+
+.chart text {
+    fill: black;
+    font-size: 18px;
+    text-anchor: start;
 }

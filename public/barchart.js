@@ -58,7 +58,6 @@ function pad(dateEntry) {
   return dateEntry < 10 ? "0" + dateEntry : dateEntry;
 }
 
-
 function createBarChart(chart) {
   var xScale = createXScale(chart);
   var yScale = createYScale(chart);
@@ -73,16 +72,31 @@ function createBarChart(chart) {
       attr("transform", function(d, i) { return "translate(0, 0)"; });
 
     appendRectangles(xScale, yScale, graph, chart);
+    appendTexts(xScale, yScale, graph, chart);
+    createXAxis(svg, xScale, chart);
 }
 
 function appendRectangles(x, y, graph, chart) {
   graph.append("rect").
+    attr("transform", function(){ return "translate(" + ( - computeBarWidth(chart) / 2) + ", 0)";}).
     attr("y", function(entry) {
       return chart.height - position(y, computeBarHeight(chart))(entry);
     }).
     attr("x", position(x, chart.getXValue)).
     attr("height", position(y, computeBarHeight(chart))).
     attr("width", computeBarWidth(chart));
+}
+
+function appendTexts(x, y, graph, chart) {
+  graph.append("text").
+    attr("transform", function(){ return "translate(-10, 10)";}).
+    attr("x", position(x, chart.getXValue)).
+    attr("y", function(entry) {
+      return chart.height - position(y, computeBarHeight(chart))(entry);
+    }).
+    attr("dy", ".75em").
+    text( chart.getYValue);
+
 }
 
 function position(scale, valueFunction) {
@@ -113,4 +127,20 @@ function createYScale(chart) {
     range([0, chart.height - chart.padding.top - chart.padding.bottom]);
   y.domain([0, d3.max(chart.data, chart.getYValue)]);
   return y;
+}
+
+function createXAxis(svg, x, chart){
+  var xAxis = d3.svg.axis().scale(x);
+  svg.
+    append("g").
+    attr("transform", "translate(0," + chart.height + ")").
+    attr("class", "axis").
+    style("fill", "steelblue").
+    call(xAxis);
+  svg.
+    append("text").
+    attr("x", chart.width).
+    attr("y", chart.height).
+    attr("text-anchor", "end").
+    text("Date");
 }
