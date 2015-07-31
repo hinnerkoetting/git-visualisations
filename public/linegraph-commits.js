@@ -4,7 +4,7 @@ function processGitResponse(data) {
 }
 
 function createChartData(data) {
-  var mapXEntry = function(entry, index) { return index;};
+  var mapXEntry = function(entry, index) { return data.length - index;};
   var options = createChartOptions(data, mapXEntry);
   options.lines.push({
     valueMapper: numberOfFilesWithStatus("M"),
@@ -102,12 +102,6 @@ function createYAxis(svg, y, chart){
     attr("class", "axis").
     style("fill", "steelblue").
     call(yAxis);
-  svg.
-    append("text").
-    attr("x", 0).
-    attr("y", -20).
-    attr("text-anchor", "start").
-    text("Number of changed files per commit");
 }
 
 function formatYYYYMMDD(date) {
