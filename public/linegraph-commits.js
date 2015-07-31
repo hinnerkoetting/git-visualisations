@@ -4,7 +4,7 @@ function processGitResponse(data) {
 }
 
 function createChartData(data) {
-  var mapXEntry = function(entry, index) { return Date.parse(entry.authorDate);};
+  var mapXEntry = function(entry, index) { return index;};
   var mapYEntry = function(entry) { return entry.files.length;};
   return createChartOptions(data, mapXEntry, mapYEntry);
 }
@@ -28,11 +28,11 @@ function createLineChart(chart) {
     appendCircleDescription(x, y, graph, chart);
     appendPath(x,y, chart, svg);
     createYAxis(svg, y, chart);
-    createXAxis(svg, x, chart);
 }
 
 function appendCircles(x, y, graph, chart) {
   graph.append("circle").
+    attr("transform", function() {return "translate(-" + (computeRadius(chart) / 2)+ ", 0)";}).
     attr("cy", position(y, chart.getYValue)).
     attr("cx", position(x, chart.getXValue)).
     attr("r", computeRadius(chart)).
@@ -60,8 +60,6 @@ function appendPath(x, y, chart, svg) {
     attr('fill', 'none');
 }
 
-
-
 function createYAxis(svg, y, chart){
   var yAxis = d3.svg.axis().scale(y)
       .orient("left").ticks(5);
@@ -76,29 +74,21 @@ function createYAxis(svg, y, chart){
     attr("x", 0).
     attr("y", -10).
     attr("text-anchor", "start").
-    text("Number of changed files");
+    text("Number of changed files per commit");
 }
 
-function createXAxis(svg, x, chart){
-  var xAxis = d3.svg.axis().scale(x);
-  svg.
-    append("g").
-    attr("transform", "translate(0," + chart.height + ")").
-    attr("class", "axis").
-    style("fill", "steelblue").
-    call(xAxis);
-  svg.
-    append("text").
-    attr("x", chart.width - 100).
-    attr("y", chart.height - 10).
-    attr("text-anchor", "end").
-    text("Commit time");
+function formatYYYYMMDD(date) {
+  return date.getFullYear() + "-" +pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+}
+
+function pad(dateEntry) {
+  return dateEntry < 10 ? "0" + dateEntry : dateEntry;
 }
 
 function createXScale(chart) {
-  var x = d3.time.scale().
+  var x = d3.scale.linear().
     rangeRound([0, chart.width]);
-  x.domain([d3.min(chart.data, chart.getXValue) - 1000 * 60 * 15 , d3.max(chart.data, chart.getXValue)]);
+  x.domain([0, chart.data.length]);
   return x;
 }
 
