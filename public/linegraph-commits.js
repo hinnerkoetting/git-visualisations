@@ -22,7 +22,7 @@ function createLineChart(chart) {
     var graph = svg.selectAll("g").
       data(chart.data).
       enter().append("g").
-      attr("transform", function(d, i) { return "translate(" + computeRadiusrWidth(chart) / 2 + ", 0)"; });
+      attr("transform", function(d, i) { return "translate(" + computeRadius() / 2 + ", 0)"; });
 
     appendCircles(x, y, graph, chart);
     appendCircleDescription(x, y, graph, chart);
@@ -67,7 +67,7 @@ function createYAxis(svg, y, chart){
       .orient("left").ticks(5);
   svg.
     append("g").
-    attr("transform", "translate(15,0)").
+    attr("transform", "translate(0,0)").
     attr("class", "axis").
     style("fill", "steelblue").
     call(yAxis);
@@ -97,7 +97,7 @@ function createXAxis(svg, x, chart){
 
 function createXScale(chart) {
   var x = d3.time.scale().
-    rangeRound([0, chart.width - 200]);
+    rangeRound([0, chart.width]);
   x.domain([d3.min(chart.data, chart.getXValue) - 1000 * 60 * 15 , d3.max(chart.data, chart.getXValue)]);
   return x;
 }
