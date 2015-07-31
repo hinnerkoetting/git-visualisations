@@ -4,40 +4,50 @@ function processGitResponse(data) {
 }
 
 function createChartData(data) {
-  var mapXEntry = function(entry, index) { return Date.parse(entry.authorDate);};
-  var mapYEntry = function(entry) { return entry.files.length;};
+  var mapXEntry = function(entry, index) {
+    return entry.authorDate;};
+  var mapYEntry = function(entry) { return entry.changedFiles;};
   return createChartOptions(data, mapXEntry, mapYEntry);
 }
 
 function createChartOptions(input, mapXValue, mapYValue) {
   return {
-    padding: { left: 0, top: 0, right: 50, bottom: 50 },
+    padding: { left: 25, top: 0, right: 25, bottom: 50 },
     data: aggregateInput(input),
     width: 1000,
     height: 500,
     getXValue: mapXValue,
-    getYValue: mapYValue
+    getYValue: mapYValue,
+    numberOfXEntries: 20
   }
 }
 
 function aggregateInput(data) {
   return data.sort(function(a, b) {
-    return b.authorDate - a.authorDate;
+    return Date.parse(a.authorDate) - Date.parse(b.authorDate);
   }).map(function(entry) {
-    var date = Date.parse(entry.authorDate);    
+    var date = Date.parse(entry.authorDate);
     return {
       changedFiles: entry.files.length,
-      authorDate: formatYYYYMMDD(new Date(date))
+      authorDate: stripDate(new Date(date))
     }
   }).reduce(function (last, current) {
 
-    if (last.length == 0 || last[last.length - 1].authorDate !== current.authorDate) {
+    if (last.length == 0 || last[last.length - 1].authorDate.getTime() !== current.authorDate.getTime()) {
       last.push(current);
     } else {
       last[last.length - 1].changedFiles += current.changedFiles;
     }
     return last;
   }, []);
+}
+
+function stripDate(date) {
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
 }
 
 function formatYYYYMMDD(date) {
@@ -60,14 +70,16 @@ function createBarChart(chart) {
     var graph = svg.selectAll("g").
       data(chart.data).
       enter().append("g").
-      attr("transform", function(d, i) { return "translate(10, 0)"; });
+      attr("transform", function(d, i) { return "translate(0, 0)"; });
 
     appendRectangles(xScale, yScale, graph, chart);
 }
 
 function appendRectangles(x, y, graph, chart) {
   graph.append("rect").
-    attr("y", position(y, computeBarHeight(chart))).
+    attr("y", function(entry) {
+      return chart.height - position(y, computeBarHeight(chart))(entry);
+    }).
     attr("x", position(x, chart.getXValue)).
     attr("height", position(y, computeBarHeight(chart))).
     attr("width", computeBarWidth(chart));
@@ -86,7 +98,7 @@ function computeBarHeight(chart) {
 }
 
 function computeBarWidth(chart) {
-  return chart.width  / chart.data.length;
+  return chart.width  / chart.numberOfXEntries;
 }
 
 function createXScale(chart) {
@@ -98,7 +110,7 @@ function createXScale(chart) {
 
 function createYScale(chart) {
   var y = d3.scale.linear().
-    range([chart.height - chart.padding.top - chart.padding.bottom, 0]);
+    range([0, chart.height - chart.padding.top - chart.padding.bottom]);
   y.domain([0, d3.max(chart.data, chart.getYValue)]);
   return y;
 }
