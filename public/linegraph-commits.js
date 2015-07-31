@@ -5,10 +5,38 @@ function processGitResponse(data) {
 
 function createChartData(data) {
   var mapXEntry = function(entry, index) { return index;};
-  var mapYEntry = function(entry) { return entry.files.length;};
-  return createChartOptions(data, mapXEntry, mapYEntry);
+  var options = createChartOptions(data, mapXEntry);
+  options.lines.push({
+    valueMapper: numberOfFilesWithStatus("M"),
+    color: 'steelblue'
+  });
+  options.lines.push({
+    valueMapper: numberOfFilesWithStatus("A"),
+    color: 'green'
+  });
+  options.lines.push({
+    valueMapper: numberOfFilesWithStatus("D"),
+    color: 'red'
+  });
+  options.lines.push({
+    valueMapper: function(entry) { return entry.files.length;},
+    color: 'darkblue'
+  });
+
+
+  return options;
 }
 
+function numberOfFilesWithStatus(checkStatus) {
+  return function (entry) {
+    return entry.status.reduce(function(last, current) {
+        if (current === checkStatus) {
+          last++;
+        }
+        return last;
+    }, 0);
+  }
+}
 
 function createLineChart(chart) {
     var y = createYScale(chart);
@@ -24,40 +52,45 @@ function createLineChart(chart) {
       enter().append("g").
       attr("transform", function(d, i) { return "translate(" + computeRadius() / 2 + ", 0)"; });
 
+      appendPath(x,y, chart, svg);
     appendCircles(x, y, graph, chart);
     appendCircleDescription(x, y, graph, chart);
-    appendPath(x,y, chart, svg);
+
     createYAxis(svg, y, chart);
 }
 
 function appendCircles(x, y, graph, chart) {
-  graph.append("circle").
-    attr("transform", function() {return "translate(-" + (computeRadius(chart) / 2)+ ", 0)";}).
-    attr("cy", position(y, chart.getYValue)).
-    attr("cx", position(x, chart.getXValue)).
-    attr("r", computeRadius(chart)).
-    attr("width", computeRadius(chart));
+  chart.lines.forEach(function(line) {
+    graph.append("circle").
+      style("fill", line.color).
+      attr("transform", function() {return "translate(-" + (computeRadius(chart) / 2  )+ ", 0)";}).
+      attr("cy", position(y, line.valueMapper)).
+      attr("cx", position(x, chart.getXValue)).
+      attr("r", computeRadius(chart)).
+      attr("width", computeRadius(chart));
+  });
 }
 
 function appendCircleDescription(x, y, graph, chart) {
-  graph.append("text").
-    attr("x", position(x, chart.getXValue)).
-    attr("y", function(d) { return y(chart.getYValue(d)) + 10; }).
-    attr("dy", ".75em").
-    text( chart.getYValue);
+  chart.lines.forEach(function(line) {
+    graph.append("text").
+      attr("x", position(x, chart.getXValue)).
+      attr("y", function(d) { return y(line.valueMapper(d)) + 10; }).
+      attr("dy", ".75em").
+      text(line.valueMapper);
+  });
 }
 
 function appendPath(x, y, chart, svg) {
-  var lineFunc = d3.svg.line().
-    x(position(x, chart.getXValue)).
-    y(position(y, chart.getYValue)).
-    interpolate('linear');
+  chart.lines.forEach(function (line) {
+    var lineFunc = d3.svg.line().
+      x(position(x, chart.getXValue)).
+      y(position(y, line.valueMapper));
 
-  svg.append('svg:path').
-    attr('d', lineFunc(chart.data)).
-    attr('stroke', 'blue').
-    attr('stroke-width', 2).
-    attr('fill', 'none');
+    svg.append('svg:path').
+      attr('d', lineFunc(chart.data)).
+      attr('stroke', line.color);
+  });
 }
 
 function createYAxis(svg, y, chart){
@@ -72,7 +105,7 @@ function createYAxis(svg, y, chart){
   svg.
     append("text").
     attr("x", 0).
-    attr("y", -10).
+    attr("y", -20).
     attr("text-anchor", "start").
     text("Number of changed files per commit");
 }
@@ -95,17 +128,27 @@ function createXScale(chart) {
 function createYScale(chart) {
   var y = d3.scale.linear().
     range([chart.height, 0]);
-  y.domain([0, d3.max(chart.data, chart.getYValue)]);
+  y.domain([0, maxOfAllValues(chart)]);
   return y;
 }
 
-function createChartOptions(input, mapXValue, mapYValue) {
+function maxOfAllValues(chart) {
+  var max = 0;
+  chart.lines.forEach(function (line) {
+    var maxOfLine = d3.max(chart.data, line.valueMapper);
+    max = max > maxOfLine ? max : maxOfLine;
+  });
+  return max;
+}
+
+
+function createChartOptions(input, mapXValue) {
   return {
     data: input,
     width: 1000,
     height: 500,
-    getXValue: mapXValue,
-    getYValue: mapYValue
+    lines: [],
+    getXValue: mapXValue
   }
 }
 

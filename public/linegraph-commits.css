@@ -1,9 +1,5 @@
 
 
-.chart circle {
-  fill: steelblue;
-}
-
 .chart text {
   fill: white;
   font: 10px sans-serif;
@@ -18,9 +14,9 @@ svg {
 
 
 path {
-    stroke: steelblue;
     stroke-width: 2;
     fill: none;
+    opacity: 0.5;
 }
 
 .axis path,
