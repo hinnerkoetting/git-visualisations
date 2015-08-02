@@ -38,6 +38,7 @@ function createGitDataWithOneEntry() {
       files: {
         length: 2
       },
+      "status":["M", "M"],
       authorDate:"2015-07-23 14:40:57 +0200"
     }];
 }
@@ -47,12 +48,14 @@ function createGitDataWithTwoEntriesForSameDay() {
       files: {
         length: 2
       },
+      "status":["M", "M"],
       authorDate:"2015-07-23 14:40:57 +0200"
     },
     {
       files: {
         length: 3
       },
+      "status":["M", "M", "M"],
       authorDate:"2015-07-23 14:30:57 +0200"
     }
   ];
@@ -63,12 +66,14 @@ function createGitDataWithTwoEntriesOnDifferentDays() {
       files: {
         length: 2
       },
+      "status":["M", "M"],
       authorDate:"2015-07-23 14:40:57 +0200"
     },
     {
       files: {
         length: 3
       },
+      "status":["M", "M", "M"],
       authorDate:"2015-07-24 14:30:57 +0200"
     }
   ];
@@ -79,18 +84,21 @@ function createThreeGitEntriesOnTwoDifferentDays() {
       files: {
         length: 2
       },
+      "status":["M", "M"],
       authorDate:"2015-07-23 14:30:57 +0200"
     },
     {
       files: {
         length: 2
       },
+      "status":["M", "M"],
       authorDate:"2015-07-23 14:40:57 +0200"
     },
     {
       files: {
         length: 3
       },
+      "status":["M", "M", "M"],
       authorDate:"2015-07-24 14:30:57 +0200"
     }
   ];
