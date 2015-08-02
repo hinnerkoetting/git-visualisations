@@ -2,4 +2,7 @@
 
 [![Build Status](https://travis-ci.org/hinnerkoetting/git-visualisations.svg?branch=master)](https://travis-ci.org/hinnerkoetting/git-visualisations)
 
-A small project to display some git visualitions. It is mainly a learning project.
+A small project to display some git visualisations. This is just a learning project.
+
+![Barchart](https://raw.githubusercontent.com/hinnerkoetting/git-visualisations/master/github/barchart.png "Barchart")
+![Linechart](https://raw.githubusercontent.com/hinnerkoetting/git-visualisations/master/github/linechart.png "Linechart")
