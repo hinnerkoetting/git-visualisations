@@ -11,9 +11,9 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.1",
-    "gitlog": "^2.0.1",
-    "mocha": "^2.2.5",
-    "send": "^0.13.0"
+    "gitlog": "^4.0.4",
+    "mocha": "^8.3.2",
+    "send": "^0.17.1"
   },
   "devDependencies": {
     "node-qunit-phantomjs": "^1.2.1"

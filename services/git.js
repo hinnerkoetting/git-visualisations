@@ -1,6 +1,6 @@
 'use strict';
 
-var gitlog = require('gitlog');
+var gitlog = require('gitlog').default;
 
 var options =
     { repo: __dirname + '/..'
