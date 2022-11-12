@@ -12,7 +12,7 @@
   "dependencies": {
     "express": "^4.13.1",
     "gitlog": "^4.0.4",
-    "mocha": "^8.3.2",
+    "mocha": "^10.1.0",
     "send": "^0.17.1"
   }
 }
