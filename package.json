@@ -10,7 +10,7 @@
   "author": "Hinnerk Oetting",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "gitlog": "^4.0.4",
     "mocha": "^10.1.0",
     "send": "^0.19.0"
